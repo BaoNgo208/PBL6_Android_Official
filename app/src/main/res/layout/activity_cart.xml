@@ -5,30 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/nencart"
     android:padding="16dp">
 
-    <!-- Tiêu đề Giỏ hàng -->
-    <TextView
-        android:id="@+id/cart_title"
-        android:layout_width="wrap_content"
+    <!-- Thanh chứa nút trở về và tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Giỏ hàng của bạn"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:padding="16dp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+
+
+        android:padding="8dp">
+
+        <!-- Nút trở về -->
+        <!-- Đặt icon cho nút trở về -->/>
+
+        <!-- Tiêu đề Giỏ hàng -->
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/cart_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:text="Giỏ hàng của bạn"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <!-- RecyclerView để hiển thị danh sách sản phẩm -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_cart"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:padding="8dp"/>
 
     <!-- Thanh chứa tổng tiền và nút thanh toán -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_cart"
+        android:layout_width="392dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+
+        android:scrollbars="vertical" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,6 +89,12 @@
             android:elevation="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"/>
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/checkout_button"
+            android:layout_alignParentTop="true"/>
     </LinearLayout>
 
 </LinearLayout>

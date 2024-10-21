@@ -10,10 +10,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pbl6_android.models.CartItem;
 import com.example.pbl6_android.models.CartService;
 import com.example.pbl6_android.models.Product;
 
@@ -39,6 +42,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
         recyclerViewCart = findViewById(R.id.recyclerView_cart);
         totalPriceTextView = findViewById(R.id.total_price);
         checkoutButton = findViewById(R.id.checkout_button);
+        ImageButton backButton =findViewById(R.id.back_button);
 
         // Khởi tạo danh sách giỏ hàng
         cartItemList = new ArrayList<>();
@@ -54,8 +58,24 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
 
 
         // Xử lý sự kiện nút Thanh toán
-        checkoutButton.setOnClickListener(v -> {
-            Toast.makeText(CartActivity.this, "Đã thanh toán", Toast.LENGTH_SHORT).show();
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this, OrderSummaryActivity.class);
+                intent.putExtra("name", "Nguyễn Văn A"); // Thay đổi theo thông tin thực tế
+                intent.putExtra("phone", "0123456789"); // Thay đổi theo thông tin thực tế
+                intent.putExtra("address", "Hà Nội"); // Thay đổi theo thông tin thực tế
+                intent.putExtra("totalPrice", Integer.toString(getTotalPrice())); // Truyền tổng tiền
+                startActivity(intent);
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CartActivity.this, Home.class);
+                startActivity(i);
+            }
+
         });
     }
 
@@ -114,5 +134,12 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
             unbindService(serviceConnection);
             isBound = false;
         }
+    }
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (Product item : cartItemList) {
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
     }
 }
