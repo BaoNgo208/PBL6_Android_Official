@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Tiêu đề Giỏ hàng -->
+    <TextView
+        android:id="@+id/cart_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giỏ hàng của bạn"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp"/>
+
+    <!-- RecyclerView để hiển thị danh sách sản phẩm -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_cart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:padding="8dp"/>
+
+    <!-- Thanh chứa tổng tiền và nút thanh toán -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- TextView để hiển thị tổng tiền -->
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền: 0đ"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/lavender"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="8dp"/>
+
+        <!-- Nút thanh toán -->
+        <Button
+            android:id="@+id/checkout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thanh toán"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/cardview_dark_background"
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+</LinearLayout>

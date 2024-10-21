@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/select_payment_method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn phương thức thanh toán"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/payment_methods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_zalopay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZaloPay" />
+
+        <RadioButton
+            android:id="@+id/radio_momo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Momo" />
+
+        <RadioButton
+            android:id="@+id/radio_vnpay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VNPay" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_confirm_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xác nhận"
+        android:layout_marginTop="24dp"/>
+
+<!--    <WebView-->
+<!--        android:id="@+id/webview_payment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:visibility="gone"/>-->
+
+</LinearLayout>
