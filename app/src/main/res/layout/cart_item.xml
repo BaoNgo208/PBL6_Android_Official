@@ -5,7 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="10dp"
+    android:color="@color/white"
+    android:radius="50dp"
     android:gravity="center_vertical">
+
 
     <!-- Hình ảnh sản phẩm -->
     <ImageView
@@ -39,8 +42,6 @@
             android:layout_height="wrap_content"
             android:text="Giá: 0đ"
             android:textSize="16sp"/>
-
-
     </LinearLayout>
 
     <!-- Nút thêm/xóa số lượng -->
@@ -50,11 +51,18 @@
         android:orientation="horizontal">
 
         <!-- Nút giảm số lượng -->
-        <Button
+        <ImageButton
             android:id="@+id/btn_decrease"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:text="-"/>
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/icontru"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+
+            android:contentDescription="Giảm số lượng"/>
+
+
 
         <!-- Hiển thị số lượng sản phẩm -->
         <TextView
@@ -66,10 +74,15 @@
             android:padding="10dp"/>
 
         <!-- Nút tăng số lượng -->
-        <Button
+        <ImageButton
             android:id="@+id/btn_increase"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:text="+"/>
+            android:layout_height="40dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/iconcong2"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:contentDescription="Tăng số lượng"/>
+
     </LinearLayout>
 </LinearLayout>
