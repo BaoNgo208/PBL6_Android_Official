@@ -1,6 +1,7 @@
 package com.example.pbl6_android.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,12 @@ public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedP
         this.productList = productList;
         this.productClickListener = productClickListener;
     }
+
+    public RecommendedProductAdapter(Context context, List<Product> productList) {
+        this.context = context;
+        this.productList = productList;
+    }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecommendedProductAdapter.ViewHolder holder, int position) {
@@ -86,6 +93,9 @@ public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedP
             imageView = itemView.findViewById(R.id.all_img);
             name = itemView.findViewById(R.id.all_product_name);
             price= itemView.findViewById(R.id.dollar);
+
+            TextView dollarDis = itemView.findViewById(R.id.dollar_dis);
+            dollarDis.setPaintFlags(dollarDis.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 //            price = imageView.findViewById(R.id.all_price);
         }
     }

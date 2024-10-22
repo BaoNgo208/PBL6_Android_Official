@@ -1,6 +1,7 @@
 package com.example.pbl6_android;
 import androidx.annotation.NonNull;
 
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         TextView productName, productPrice, productQuantity;
         ImageView productImage;
-        Button btnIncrease, btnDecrease;
+        AppCompatImageButton btnIncrease, btnDecrease;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);

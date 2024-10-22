@@ -14,22 +14,21 @@
 
         <!-- Search Bar (EditText) -->
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/search_bar"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/nav_search"
-            android:background="@drawable/search_bg"
-            android:drawablePadding="9dp"
-            android:fontFamily="@font/amita"
-            android:hint="Search for product"
             android:layout_margin="6dp"
-            android:textColorHint="@color/white"
+            android:background="@drawable/search_bg"
+            android:drawableLeft="@drawable/nav_search"
+            android:drawablePadding="9dp"
+            android:fontFamily="serif"
+            android:hint="Search for product"
             android:padding="10dp"
             android:textColor="#FFFFFF"
+            android:textColorHint="@color/white"
             android:textSize="13sp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-             />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Cart Icon (ImageView) -->
 
@@ -43,7 +42,7 @@
             android:src="@drawable/baseline_shopping_cart_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.252"
-            app:layout_constraintStart_toEndOf="@id/editText"
+            app:layout_constraintStart_toEndOf="@id/search_bar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -103,13 +102,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ad_five" />
         </ViewFlipper>
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:fontFamily="@font/montserrat"
+            android:fontFamily="@font/adlam_display"
             android:text="Danh mục"
+            android:textSize="26sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.017"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +133,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
-            android:fontFamily="@font/amita"
+            android:textStyle="bold"
+
+            android:fontFamily="@font/adlam_display"
+            android:textSize="26sp"
             android:text="Sản phẩm hot"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.017"

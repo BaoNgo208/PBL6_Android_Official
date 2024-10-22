@@ -1,13 +1,17 @@
 package com.example.pbl6_android;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6_android.Activity.Product.DetailActivity;
+import com.example.pbl6_android.Activity.Product.SearchedProductActivity;
 import com.example.pbl6_android.adapters.HomeHorAdapter;
 import com.example.pbl6_android.adapters.NewProductAdapter;
 import com.example.pbl6_android.adapters.RecommendedProductAdapter;
@@ -157,6 +162,7 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -220,8 +226,27 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
             }
         });
 
+        EditText editText = root.findViewById(R.id.search_bar);
+
+        editText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() <= (editText.getCompoundDrawables()[0].getBounds().width() + editText.getPaddingLeft())) {
+                    String searchQuery = editText.getText().toString().trim();
+
+                    Intent intent = new Intent(root.getContext(), SearchedProductActivity.class);
+                    intent.putExtra("product", searchQuery);
+                    startActivity(intent);
+                    v.performClick();
+                    return true;
+                }
+            }
+            return false;
+        });
+
         return root;
     }
+
+
 
     @Override
     public void onProductClick(Product product) {

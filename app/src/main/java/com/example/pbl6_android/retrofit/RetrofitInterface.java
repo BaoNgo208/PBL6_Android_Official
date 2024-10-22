@@ -26,4 +26,7 @@ public interface RetrofitInterface {
     @GET("/Order/getOrderByStatus")
     Call<List<Order>> getOrderByStatus(@Query("status") String status , @Query("page") int page, @Query("size") int size);
 
+    @GET("/Product/getProductByName")
+    Call<List<Product>> getProductByName(@Query("productName") String name, @Query("page") int page, @Query("size") int size);
+
 }
