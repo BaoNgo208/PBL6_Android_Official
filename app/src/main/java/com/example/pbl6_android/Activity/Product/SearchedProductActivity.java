@@ -43,14 +43,12 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
 
     private void fetchSearchedProducts(int page) {
         String searchQuery = getIntent().getStringExtra("product");
-        System.out.println("search query:" + searchQuery);
         Call<List<Product>> call = retrofitInterface.getProductByName(searchQuery,page, PAGE_SIZE);
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Product> fetchedProducts = response.body();
-//                    System.out.println("page size:"  + fetchedProducts.size());
 
                     productList.addAll(fetchedProducts);
                     recommendedProductAdapter.notifyDataSetChanged();
@@ -75,13 +73,7 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
         fetchSearchedProducts(state.currentPage);
     }
 
-    private void setupViewMore2(TextView viewMoreButton, PageState state) {
-        viewMoreButton.setOnClickListener(v -> {
-            if (!state.isLoading && !state.isLastPage) {
-                loadMoreSearchedItems(state); // Fetch more products on click
-            }
-        });
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +133,6 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
     public void onProductClick(Product product) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("product",product);
-        System.out.println("get product receive:" + product.getPrice());
-
         startActivity(intent);
     }
 }
