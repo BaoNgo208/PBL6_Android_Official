@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:background="@drawable/nencart"
+    tools:context=".HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Bar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0087CB"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/back_arrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Đơn đã mua"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:textColor="#000" />
+        </RelativeLayout>
+
+        <!-- Tab Bar -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tab_pickup"
+                    android:layout_width="118dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="16dp"
+                    android:text="Đang chờ"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic" />
+
+
+                <TextView
+                    android:id="@+id/tab_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="Đã thanh toán"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic"
+                    android:fontFamily="sans-serif-light" />
+
+                <TextView
+                    android:id="@+id/tab_delivered"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="16dp"
+                    android:text="Đã hủy"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+        </HorizontalScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_cart"
+            android:layout_width="392dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+
+            android:scrollbars="vertical" />
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

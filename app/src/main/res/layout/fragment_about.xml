@@ -17,13 +17,13 @@
         <!-- Banner Image (replaces ViewFlipper) -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/lavender"
             android:id="@+id/header"
+            android:layout_width="413dp"
+            android:layout_height="59dp"
+            android:background="#0087CB"
             app:layout_constraintStart_toStartOf="@id/main"
-            tools:layout_editor_absoluteY="0dp"
-            tools:ignore="MissingConstraints">
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp">
 
             <!-- Profile Image -->
 
@@ -34,12 +34,11 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
 
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="4dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_supervised_user_circle_24"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                tools:layout_editor_absoluteY="3dp" />
 
             <TextView
                 android:id="@+id/username"
@@ -58,10 +57,10 @@
                 android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:text="Cài đặt"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:layout_marginStart="4dp"
                 android:textStyle="italic"
                 app:layout_constraintStart_toEndOf="@id/username"
                 app:layout_constraintTop_toTopOf="@id/username" />
@@ -97,10 +96,6 @@
             </LinearLayout>
 
 
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -121,25 +116,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView2" />
 
+        <!-- Grid RecyclerView for Recommended Products -->
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="60dp"
             android:fontFamily="@font/amita"
-            android:text="Sản phẩm hot"
+            android:text="Có thể bạn cũng thích"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.017"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_status_rec" />
 
-        <!-- Grid RecyclerView for Recommended Products -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recommended_product"
             android:layout_width="match_parent"
@@ -160,41 +158,6 @@
             app:layout_constraintTop_toBottomOf="@id/recommended_product"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Sản phẩm mới"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.017"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recommended_product" />
-
-        <!-- Grid RecyclerView for New Products -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/new_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            app:layout_constraintTop_toBottomOf="@id/textView4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/view_more_new_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View More"
-            android:layout_gravity="center"
-            android:textSize="16sp"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/new_product"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

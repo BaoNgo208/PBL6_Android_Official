@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6_android.Activity.Order.OrderHistoryActivity;
+import com.example.pbl6_android.OrderStatusActivity;
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.models.OrderStatus;
 
@@ -40,11 +41,10 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         holder.name.setText(orderStatusList.get(position).getName());
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, OrderHistoryActivity.class);
+            Intent intent = new Intent(context, OrderStatusActivity.class);
             context.startActivity(intent);
         });
     }
-
     @Override
     public int getItemCount() {
         return orderStatusList.size();
@@ -60,6 +60,5 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
             imageView = itemView.findViewById(R.id.hor_img);
             name = itemView.findViewById(R.id.hor_text);
         }
-
     }
 }
