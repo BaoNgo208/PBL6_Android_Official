@@ -78,15 +78,13 @@ public class AboutFragment extends Fragment {
 
         orderStatusRec = root.findViewById(R.id.order_status_rec);
         orderStatusList =new ArrayList<>();
-        orderStatusList.add(new OrderStatus(R.drawable.dahuy, "Đã thanh toán"));
-        orderStatusList.add(new OrderStatus(R.drawable.dahuy, "Đã hủy"));
-        orderStatusList.add(new OrderStatus(R.drawable.dahuy, "Đang chờ"));
-        orderStatusList.add(new OrderStatus(R.drawable.dahuy, "Đã nhận"));
+        orderStatusList.add(new OrderStatus(R.drawable.icondangcho, "Đang chờ"));
+        orderStatusList.add(new OrderStatus(R.drawable.icondathanhtoan1, "Đã thanh toán"));
+        orderStatusList.add(new OrderStatus(R.drawable.icondahuy, "Đã hủy"));
+        orderStatusList.add(new OrderStatus(R.drawable.icondanhgia1, "Đánh giá"));
         orderStatusAdapter = new OrderStatusAdapter(getActivity(),orderStatusList);
         orderStatusRec.setAdapter(orderStatusAdapter);
         orderStatusRec.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-
-
         return root;
     }
 }
