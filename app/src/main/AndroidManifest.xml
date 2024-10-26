@@ -55,6 +55,8 @@
         <activity android:name=".SelectPaymentMethodActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".OrderSummaryActivity" />
+        <activity android:name=".OrderStatusActivity"></activity>
+
 
         <service android:name=".models.CartService" />
 
