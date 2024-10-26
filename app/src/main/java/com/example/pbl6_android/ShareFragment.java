@@ -1,6 +1,9 @@
 package com.example.pbl6_android;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,10 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.pbl6_android.Activity.Product.DetailActivity;
+import com.example.pbl6_android.Activity.Product.SearchedProductActivity;
 import com.example.pbl6_android.adapters.RecommendedProductAdapter;
 import com.example.pbl6_android.models.PageState;
 import com.example.pbl6_android.models.Product;
@@ -116,6 +122,7 @@ public class ShareFragment extends Fragment implements RecommendedProductAdapter
         fetchRecommendedProducts(state.currentPage);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -151,6 +158,36 @@ public class ShareFragment extends Fragment implements RecommendedProductAdapter
                     }
                 }
             }
+        });
+
+
+        EditText editText = root.findViewById(R.id.trending_product_search_bar);
+
+
+        editText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                Drawable leftDrawable = editText.getCompoundDrawables()[0]; // Left drawable
+                if (leftDrawable != null) {
+                    int drawableWidth = leftDrawable.getBounds().width();
+                    int clickArea = editText.getPaddingLeft() + drawableWidth;
+
+                    if (event.getX() <= clickArea) {
+                        String searchQuery = editText.getText().toString().trim();
+
+                        if (!searchQuery.isEmpty()) {
+                            Intent intent = new Intent(editText.getContext(), SearchedProductActivity.class);
+                            intent.putExtra("product", searchQuery);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+
+                            editText.getContext().startActivity(intent);
+
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         });
 
         return root;

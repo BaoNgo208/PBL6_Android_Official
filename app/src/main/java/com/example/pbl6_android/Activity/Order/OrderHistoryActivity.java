@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.adapters.OrderHistoryAdapter;
@@ -102,5 +104,13 @@ public class OrderHistoryActivity extends AppCompatActivity {
         pageState = new PageState();
         pageState.currentPage = 1;  // Set initial page
 
+
+        ImageView back = findViewById(R.id.history_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

@@ -55,9 +55,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Nút giảm số lượng -->
         <Button
-            android:id="@+id/btn_decrease"
+            android:id="@+id/btn_rePurchased"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Mua lại" />

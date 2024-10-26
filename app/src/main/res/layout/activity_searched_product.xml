@@ -7,7 +7,7 @@
     tools:context=".Activity.Product.SearchedProductActivity">
 
     <ImageView
-        android:id="@+id/searh_result_back"
+        android:id="@+id/search_result_back"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:src="@drawable/back"
@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="-38dp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/searched_result_search_bar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/searh_result_back"
+        app:layout_constraintStart_toEndOf="@id/search_result_back"
         app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView

@@ -1,9 +1,11 @@
 package com.example.pbl6_android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.pbl6_android.Activity.Product.DetailActivity;
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.models.Order;
 import com.example.pbl6_android.models.Product;
@@ -23,6 +26,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     Context context;
     List<Order> orderList;
+
+    Product product;
 
 
     public OrderHistoryAdapter(Context context, List<Order> orderList) {
@@ -41,23 +46,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order order = orderList.get(position);
 
-        Product product = order.getOrderDetails().get(0).getProduct();
-        // Get the image resource ID dynamically using the image name
+        product = order.getOrderDetails().get(0).getProduct();
         int imageResource = context.getResources().getIdentifier(product.getImageUrl(), "drawable", context.getPackageName());
 
-        // Use Glide to load the image by resource ID
         Glide.with(context).load(imageResource).into(holder.imageView);
 
         holder.name.setText(product.getName());
 
         double price = product.getPrice(); // Nếu price là double từ database
 
-        // Chuyển đổi giá thành long để loại bỏ phần thập phân
         long roundedPrice = (long) price; // Lấy phần nguyên
 
-        // Định dạng giá trị thành chuỗi với dấu phẩy
         String formattedPrice = new DecimalFormat("#,###").format(roundedPrice) + " đồng";
-        // Kiểm tra và loại bỏ 2 ký tự cuối nếu có
 
 
         holder.price.setText(formattedPrice);
@@ -81,6 +81,17 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             price= itemView.findViewById(R.id.product_price);
             orderedDate = itemView.findViewById(R.id.product_orderedDate);
 //            price = imageView.findViewById(R.id.all_price);
+
+            Button buy = itemView.findViewById(R.id.btn_rePurchased);
+            buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(itemView.getContext(), DetailActivity.class);
+                    i.putExtra("product",product);
+                    itemView.getContext().startActivity(i);
+
+                }
+            });
         }
     }
 }

@@ -41,7 +41,7 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         holder.name.setText(orderStatusList.get(position).getName());
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, OrderStatusActivity.class);
+            Intent intent = new Intent(context, OrderHistoryActivity.class);
             context.startActivity(intent);
         });
     }

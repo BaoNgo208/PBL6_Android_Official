@@ -4,11 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.adapters.RecommendedProductAdapter;
@@ -75,6 +81,7 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +127,37 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
         });
 
 
-        ImageView back = findViewById(R.id.searh_result_back);
+        EditText editText = findViewById(R.id.searched_result_search_bar);
+
+
+        editText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                Drawable leftDrawable = editText.getCompoundDrawables()[0]; // Left drawable
+                if (leftDrawable != null) {
+                    int drawableWidth = leftDrawable.getBounds().width();
+                    int clickArea = editText.getPaddingLeft() + drawableWidth;
+
+                    if (event.getX() <= clickArea) {
+                        String searchQuery = editText.getText().toString().trim();
+
+                        if (!searchQuery.isEmpty()) {
+                            Intent intent = new Intent(editText.getContext(), SearchedProductActivity.class);
+                            intent.putExtra("product", searchQuery);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                            ((Activity) editText.getContext()).finish();
+
+                            editText.getContext().startActivity(intent);
+
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        });
+
+        ImageView back = findViewById(R.id.search_result_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
