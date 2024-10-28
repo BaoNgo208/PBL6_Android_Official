@@ -43,8 +43,8 @@
 
     <TextView
         android:id="@+id/total_price"
-        android:layout_width="302dp"
-        android:layout_height="17dp"
+        android:layout_width="191dp"
+        android:layout_height="24dp"
         android:layout_marginTop="4dp"
         android:text="Tổng số tiền : ₫21.000"
         android:textColor="#000"
