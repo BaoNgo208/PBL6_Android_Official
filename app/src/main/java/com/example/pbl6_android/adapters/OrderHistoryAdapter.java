@@ -61,7 +61,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 
         holder.price.setText(formattedPrice);
-
+        holder.bind(product);
 
 
     }
@@ -82,14 +82,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             orderedDate = itemView.findViewById(R.id.product_orderedDate);
 //            price = imageView.findViewById(R.id.all_price);
 
+//            Button buy = itemView.findViewById(R.id.btn_rePurchased);
+
+        }
+
+        public void bind(final Product product) {
             Button buy = itemView.findViewById(R.id.btn_rePurchased);
             buy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(itemView.getContext(), DetailActivity.class);
-                    i.putExtra("product",product);
+                    i.putExtra("product", product);
+                    System.out.println("Product name: " + product.getName());
                     itemView.getContext().startActivity(i);
-
                 }
             });
         }

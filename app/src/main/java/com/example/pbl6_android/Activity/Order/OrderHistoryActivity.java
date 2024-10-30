@@ -32,7 +32,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     RecyclerView orderHistoryRec;
     OrderHistoryAdapter orderHistoryAdapter;
-    private static final String STATUS = "Pending";
+    private static final String STATUS = "done";
 
 
     //Retrofit fetch api backend
@@ -42,7 +42,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private String BASE_URL = "http://10.0.2.2:5273/";
 
 
-    private static final int PAGE_SIZE = 4;
+    private static final int PAGE_SIZE = 20;
 
 
     private void fetchRecommendedProducts(int page) {
