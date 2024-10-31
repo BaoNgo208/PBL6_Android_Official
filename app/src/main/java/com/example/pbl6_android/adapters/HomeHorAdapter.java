@@ -18,10 +18,15 @@ import java.util.List;
 public class HomeHorAdapter extends RecyclerView.Adapter<HomeHorAdapter.ViewHolder> {
     Context context;
     List<Category> categoryList;
+    private OnCategoryClickListener categoryClickListener;
 
-    public HomeHorAdapter(Context context, List<Category> categoryList) {
+    public interface  OnCategoryClickListener {
+        void onCategoryClick(Category category);
+    }
+    public HomeHorAdapter(Context context, List<Category> categoryList, OnCategoryClickListener categoryClickListener) {
         this.context = context;
         this.categoryList = categoryList;
+        this.categoryClickListener = categoryClickListener;
     }
 
     @NonNull
@@ -32,8 +37,17 @@ public class HomeHorAdapter extends RecyclerView.Adapter<HomeHorAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.imageView.setImageResource(categoryList.get(position).getImage());
+        Category category = categoryList.get(position) ;
+
+
+        holder.imageView.setImageResource(categoryList.get(position).getImage());
             holder.name.setText(categoryList.get(position).getName());
+
+            holder.itemView.setOnClickListener(v -> {
+                if(categoryClickListener != null) {
+                     categoryClickListener.onCategoryClick(category);
+                }
+            });
     }
 
     @Override

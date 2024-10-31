@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6_android.Activity.Product.DetailActivity;
+import com.example.pbl6_android.Activity.Product.SearchedByCategoryActivity;
 import com.example.pbl6_android.Activity.Product.SearchedProductActivity;
 import com.example.pbl6_android.adapters.HomeHorAdapter;
 import com.example.pbl6_android.adapters.NewProductAdapter;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment implements RecommendedProductAdapter.OnProductClickListener {
+public class HomeFragment extends Fragment implements RecommendedProductAdapter.OnProductClickListener , HomeHorAdapter.OnCategoryClickListener {
 
     private PageState pageState;
     private PageState newPageState;
@@ -175,7 +176,7 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         categoryList.add(new Category(R.drawable.sandwich, "Giải khát"));
         categoryList.add(new Category(R.drawable.ice_cream, "Đồ ngọt"));
         categoryList.add(new Category(R.drawable.potatoes, "Đồ mặn"));
-        homeHorAdapter = new HomeHorAdapter(getActivity(), categoryList);
+        homeHorAdapter = new HomeHorAdapter(getActivity(), categoryList,this);
         homeHorizontalRec.setAdapter(homeHorAdapter);
         homeHorizontalRec.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
@@ -252,8 +253,15 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
     public void onProductClick(Product product) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("product",product);
-        System.out.println("get product receive:" + product.getPrice());
 
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCategoryClick(Category category) {
+        Intent intent = new Intent(getActivity(), SearchedByCategoryActivity.class);
+        intent.putExtra("categoryName",category.getName());
+        System.out.println("category name:" + category.getName());
         startActivity(intent);
     }
 }

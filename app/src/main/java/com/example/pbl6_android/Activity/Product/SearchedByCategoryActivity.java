@@ -4,17 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.adapters.RecommendedProductAdapter;
@@ -31,12 +26,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchedProductActivity extends AppCompatActivity implements RecommendedProductAdapter.OnProductClickListener {
-
+public class SearchedByCategoryActivity extends AppCompatActivity implements RecommendedProductAdapter.OnProductClickListener{
     private PageState pageState;
 
 
-    RecyclerView searchedProductRec;
+    RecyclerView searchedProductByCategoryRec;
     List<Product> productList;
 
     private Retrofit retrofit;
@@ -48,8 +42,9 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
     private static final int PAGE_SIZE = 4;
 
     private void fetchSearchedProducts(int page) {
-        String searchQuery = getIntent().getStringExtra("product");
-        Call<List<Product>> call = retrofitInterface.getProductByName(searchQuery,page, PAGE_SIZE);
+        String searchQuery = getIntent().getStringExtra("categoryName");
+        System.out.println("check cate name:" + searchQuery);
+        Call<List<Product>> call = retrofitInterface.getProductsByCategory(searchQuery,page, PAGE_SIZE);
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -68,6 +63,8 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e("API_ERROR", "Failed to fetch product: " + t.getMessage(), t);
+
                 pageState.isLoading = false;
             }
         });
@@ -80,12 +77,11 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
     }
 
 
-
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searched_product);
+        setContentView(R.layout.activity_searched_by_category);
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -97,16 +93,16 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
         productList =new ArrayList<>();
         fetchSearchedProducts(1);
 
-        searchedProductRec = findViewById(R.id.searched_product);
+        searchedProductByCategoryRec = findViewById(R.id.searched_product);
 
         recommendedProductAdapter = new RecommendedProductAdapter(this, productList,this);
-        searchedProductRec.setAdapter(recommendedProductAdapter);
-        searchedProductRec.setLayoutManager(new GridLayoutManager(this, 2));
+        searchedProductByCategoryRec.setAdapter(recommendedProductAdapter);
+        searchedProductByCategoryRec.setLayoutManager(new GridLayoutManager(this, 2));
 
         pageState = new PageState();
         pageState.currentPage = 1;  // Set initial page
 
-        searchedProductRec.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        searchedProductByCategoryRec.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -126,37 +122,6 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
             }
         });
 
-
-        EditText editText = findViewById(R.id.searched_result_search_bar);
-
-
-        editText.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                Drawable leftDrawable = editText.getCompoundDrawables()[0]; // Left drawable
-                if (leftDrawable != null) {
-                    int drawableWidth = leftDrawable.getBounds().width();
-                    int clickArea = editText.getPaddingLeft() + drawableWidth;
-
-                    if (event.getX() <= clickArea) {
-                        String searchQuery = editText.getText().toString().trim();
-
-                        if (!searchQuery.isEmpty()) {
-                            Intent intent = new Intent(editText.getContext(), SearchedProductActivity.class);
-                            intent.putExtra("product", searchQuery);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                            ((Activity) editText.getContext()).finish();
-
-                            editText.getContext().startActivity(intent);
-
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        });
-
         ImageView back = findViewById(R.id.search_result_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +129,8 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
                 finish();
             }
         });
+
+
     }
 
     @Override

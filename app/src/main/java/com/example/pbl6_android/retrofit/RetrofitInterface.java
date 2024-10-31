@@ -41,4 +41,7 @@ public interface RetrofitInterface {
 
     @POST("/User/rate")
     Call<Review> createReview(@Body Review newReview);
+
+    @GET("/Product/getProductByCategory")
+    Call<List<Product>> getProductsByCategory(@Query("categoryName") String categoryName,@Query("page") int page, @Query("size") int size);
  }
