@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/nencart">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- LinearLayout để ImageButton và Tiêu đề "Thanh Toán" ngang hàng -->
+    <!-- Thanh chứa nút trở về và tiêu đề -->
     <LinearLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:background="#0087CB"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- ImageButton để trở về trang trước đó -->
+        <!-- Nút trở về -->
         <ImageButton
             android:id="@+id/back_button"
             android:layout_width="48dp"
@@ -23,126 +23,165 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="2dp"
             android:scaleType="centerInside"
-            android:src="@drawable/back"/>
+            android:src="@drawable/back" />
 
-        <!-- Tiêu đề trang thanh toán -->
+        <!-- Tiêu đề Giỏ hàng -->
         <TextView
+            android:id="@+id/cart_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thanh Toán"
+            android:layout_marginLeft="40dp"
+            android:text="Giỏ hàng của bạn"
+            android:textColor="@color/black"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:paddingStart="60dp"/> <!-- Khoảng cách giữa nút trở về và tiêu đề -->
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Thông tin người đặt hàng (đẩy xuống với marginTop) -->
+    <!-- Thông tin người đặt hàng -->
     <TextView
+        android:id="@+id/customer_info_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"
         android:text="Thông tin người đặt hàng:"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"/>
 
     <EditText
         android:id="@+id/full_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Họ và tên"
         android:padding="12dp"
         android:background="@drawable/edittext_background"
-        android:layout_marginTop="8dp"/> <!-- Thêm margin nếu muốn -->
+        app:layout_constraintTop_toBottomOf="@id/customer_info_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
     <EditText
         android:id="@+id/phone_number"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Số điện thoại"
         android:padding="12dp"
         android:background="@drawable/edittext_background"
         android:inputType="phone"
-        android:layout_marginTop="8dp"/> <!-- Thêm margin nếu muốn -->
+        app:layout_constraintTop_toBottomOf="@id/full_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
     <EditText
         android:id="@+id/address"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Địa chỉ giao hàng"
         android:padding="12dp"
         android:background="@drawable/edittext_background"
-        android:layout_marginTop="8dp"/> <!-- Thêm margin nếu muốn -->
+        app:layout_constraintTop_toBottomOf="@id/phone_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
-    <!-- Nhập mã giảm giá -->
+    <!-- Mã giảm giá -->
     <TextView
+        android:id="@+id/discount_code_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mã giảm giá"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/address"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginStart="16dp"/>
 
-    <!-- LinearLayout để đặt EditText và Button cạnh nhau -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/discount_code"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="Nhập mã giảm giá (nếu có)"
-            android:padding="12dp"
-            android:background="@drawable/edittext_background"/>
-
-        <Button
-            android:id="@+id/check_discount_buttonn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Kiểm tra"
-            android:backgroundTint="@color/cardview_dark_background"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
-
-    <!-- Thêm View trống với layout_weight để đẩy các phần dưới lên -->
-    <View
+    <!-- EditText và Button kiểm tra mã giảm giá -->
+    <EditText
+        android:id="@+id/discount_code"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:hint="Nhập mã giảm giá (nếu có)"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/discount_code_label"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/check_discount_button"/>
 
-    <!-- Tổng tiền trước và sau khi giảm giá -->
+    <Button
+        android:id="@+id/check_discount_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kiểm tra"
+        android:backgroundTint="@color/cardview_dark_background"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="@id/discount_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- Tổng tiền -->
     <TextView
         android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tổng tiền: 500,000đ"
         android:textSize="18sp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/black"/>
+        app:layout_constraintBottom_toTopOf="@id/discount_amount"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"/>
 
+    <!-- Tiền giảm giá -->
+    <TextView
+        android:id="@+id/discount_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tiền giảm giá: -50,000đ"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/discounted_price"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Tổng tiền sau giảm -->
     <TextView
         android:id="@+id/discounted_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tổng tiền sau giảm: 450,000đ"
+        android:textSize="20sp"
         android:textColor="#BA1C18"
-        android:textSize="20sp"/>
+        app:layout_constraintBottom_toTopOf="@id/order_button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"/>
 
-    <!-- Nút đặt hàng cố định ở dưới -->
+    <!-- Nút đặt hàng -->
     <Button
         android:id="@+id/order_button"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/cardview_dark_background"
         android:elevation="4dp"
         android:padding="16dp"
         android:text="Đặt hàng"
         android:textColor="@android:color/white"
-        android:layout_gravity="bottom"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
