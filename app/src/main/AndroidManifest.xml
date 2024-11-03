@@ -62,6 +62,7 @@
         <activity android:name=".CartActivity" />
         <activity android:name=".OrderSummaryActivity" />
         <activity android:name=".OrderStatusActivity" />
+        <activity android:name=".ReviewProductActivity" />
 
         <service android:name=".models.CartService" />
 

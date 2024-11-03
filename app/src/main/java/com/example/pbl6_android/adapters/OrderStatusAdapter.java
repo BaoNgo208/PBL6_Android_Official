@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pbl6_android.Activity.Order.OrderHistoryActivity;
 import com.example.pbl6_android.OrderStatusActivity;
 import com.example.pbl6_android.R;
+import com.example.pbl6_android.ReviewProductActivity;
 import com.example.pbl6_android.models.OrderStatus;
 
 import java.util.List;
@@ -40,9 +41,18 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         holder.imageView.setImageResource(orderStatusList.get(position).getImage());
         holder.name.setText(orderStatusList.get(position).getName());
 
+
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, OrderHistoryActivity.class);
-            context.startActivity(intent);
+
+            if(holder.name.getText() != "Đánh giá") {
+                Intent intent = new Intent(context, OrderHistoryActivity.class);
+                context.startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(context, ReviewProductActivity.class);
+                context.startActivity(intent);
+            }
+
         });
     }
     @Override
