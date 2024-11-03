@@ -44,4 +44,7 @@ public interface RetrofitInterface {
 
     @GET("/Product/getProductByCategory")
     Call<List<Product>> getProductsByCategory(@Query("categoryName") String categoryName,@Query("page") int page, @Query("size") int size);
- }
+
+    @GET("/Promotion/getPromotionCode/{code}")
+    Call<Promotion> getPromotionCode(@Path("code") String code);
+}

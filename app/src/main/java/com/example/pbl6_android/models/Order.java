@@ -10,11 +10,26 @@ public class Order {
 
     private UUID orderId;
 
+    public String getPromotionId() {
+        return promotionId;
+    }
+
+    public void setPromotionId(String promotionId) {
+        this.promotionId = promotionId;
+    }
+
+    private String promotionId;
+
+    public Order( String status, List<OrderDetail> orderDetails,String promotionId) {
+        this.promotionId = promotionId;
+        this.orderDetails = orderDetails;
+        this.status = status;
+    }
 
     private String orderDate;
     private List<OrderDetail> orderDetails;
 
-    private int totalAmount; // Use BigDecimal for precise amount
+    private double totalAmount; // Use BigDecimal for precise amount
 
     public Order(String status, List<OrderDetail> orderDetails) {
         this.status = status;
@@ -66,7 +81,7 @@ public class Order {
 
     private User user;
 
-    public int getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 

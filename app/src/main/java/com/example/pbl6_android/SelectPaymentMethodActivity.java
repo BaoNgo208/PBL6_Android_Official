@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +18,7 @@ import com.example.pbl6_android.models.Order;
 import com.example.pbl6_android.models.OrderDetail;
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.retrofit.RetrofitInterface;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +37,31 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
 
     private String BASE_URL = "http://10.0.2.2:5273/";
-    private WebView webViewPayment;
+    String promtionId;
 
     private Order createOrder(Product selectedProduct) {
+        System.out.println("final check:" +promtionId);
        return new Order("Pending", new ArrayList<OrderDetail>(){
             {
                 add(new OrderDetail(1,selectedProduct.getProductId()));
             }
-        });
+        }, promtionId);
 
     }
 
-    private void sendOrderAndRedirect(String paymentMethod, Order order) {
+    private Order createOrderWithoutPromotion(Product selectedProduct) {
 
+        return new Order("Pending", new ArrayList<OrderDetail>(){
+            {
+                add(new OrderDetail(1,selectedProduct.getProductId()));
+            }
+        });
+    }
+
+    private void sendOrderAndRedirect(String paymentMethod, Order order) {
+        if (order.getPromotionId() == null) {
+            order.setPromotionId(null); // Hoặc không gửi trường này trong yêu cầu
+        }
         Call<ResponseBody> call = retrofitInterface.checkout(paymentMethod, order);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -61,10 +75,9 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
 
 
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(redirectUrl));
-                        System.out.println("URI: " +  Uri.parse(redirectUrl));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-
+                        finish();
                         startActivity(intent);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -73,9 +86,19 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SelectPaymentMethodActivity.this,
-                            "Đã xảy ra lỗi khi thực hiện đơn hàng",
-                            Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        System.out.println("Error Code: " + response.code());
+                        System.out.println("Error Body: " + errorBody);
+                        Toast.makeText(SelectPaymentMethodActivity.this,
+                                "Đã xảy ra lỗi: " + response.code() + " - " + errorBody,
+                                Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(SelectPaymentMethodActivity.this,
+                                "Lỗi khi xử lý phản hồi: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -106,9 +129,12 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
 
 //        Product product = (Product) getIntent().getSerializableExtra("product");
 
-        Product product = getIntent().getParcelableExtra("product");;
+        Product product = getIntent().getParcelableExtra("product");
+        promtionId = getIntent().getStringExtra("promotionId");
 
         System.out.println("product id:"+product.getProductId());
+        System.out.println("product price after discount:"+promtionId);
+
 //        webViewPayment = findViewById(R.id.webview_payment);
 //        webViewPayment.setWebViewClient(new WebViewClient());
 //        webViewPayment.getSettings().setJavaScriptEnabled(true);
@@ -126,8 +152,21 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
                 if (selectedId != -1) {
                     RadioButton selectedRadioButton = findViewById(selectedId);
                     String selectedPaymentMethod = selectedRadioButton.getText().toString();
+                    Order newOrder;
+                    if(promtionId.isEmpty())  {
+                        newOrder = createOrderWithoutPromotion(product);
+                    }
+                    else {
+                        newOrder = createOrder(product);
+                    }
+                    Gson gson = new Gson();
+                    String jsonOrder = gson.toJson(newOrder);
 
-                    Order newOrder = createOrder(product);
+// Log chuỗi JSON
+                    Log.d("OrderDetails", "New Order: " + jsonOrder);
+
+
+                    System.out.println("final check 2:" + newOrder.getPromotionId());
 
                     switch (selectedPaymentMethod) {
                         case "ZaloPay":

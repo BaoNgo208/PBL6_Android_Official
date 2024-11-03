@@ -73,7 +73,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 pageState.isLoading = false;
-                System.err.println("API call failed: " + t.getMessage());
+                System.err.println("API call failed: fetch history failed " + t.getMessage());
                 t.printStackTrace();
                 pageState.isLoading = false;
             }

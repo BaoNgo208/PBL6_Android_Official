@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pbl6_android.OrderSummaryActivity;
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.SelectPaymentMethodActivity;
 import com.example.pbl6_android.adapters.ReviewAdapter;
@@ -121,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, SelectPaymentMethodActivity.class);
+                Intent intent = new Intent(DetailActivity.this, OrderSummaryActivity.class);
                 intent.putExtra("product", (Parcelable) product);
                 startActivity(intent);
             }

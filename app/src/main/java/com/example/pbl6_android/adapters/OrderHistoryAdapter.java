@@ -53,7 +53,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         holder.name.setText(product.getName());
 
-        double price = product.getPrice(); // Nếu price là double từ database
+        double price = order.getTotalAmount(); // Nếu price là double từ database
 
         long roundedPrice = (long) price; // Lấy phần nguyên
 

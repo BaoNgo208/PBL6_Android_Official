@@ -109,6 +109,25 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/promote_code_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/promotion_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"/>
+
+
     <!-- Thêm View trống với layout_weight để đẩy các phần dưới lên -->
     <View
         android:layout_width="0dp"

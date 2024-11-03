@@ -8,7 +8,15 @@ import java.util.UUID;
 
 public class Promotion {
 
-    private UUID PromotionId ;
+    private String promotionId; // giữ kiểu String cho JSON
+
+    public UUID getPromotionId() {
+        return UUID.fromString(promotionId);
+    }
+
+    public void setPromotionId(String promotionId) {
+        this.promotionId = promotionId;
+    }
     @SerializedName("code")
     private String Code ;
 
@@ -16,14 +24,6 @@ public class Promotion {
 
     @SerializedName("percentage")
     private Double Percentage ;
-
-    public UUID getPromotionId() {
-        return PromotionId;
-    }
-
-    public void setPromotionId(UUID promotionId) {
-        PromotionId = promotionId;
-    }
 
     public String getCode() {
         return Code;
@@ -86,8 +86,8 @@ public class Promotion {
         this.content = content;
     }
 
-    public Promotion(UUID promotionId, String code, String content, Double percentage, LocalDateTime startDate, LocalDateTime endDate, Integer maxUsage) {
-        PromotionId = promotionId;
+    public Promotion(String promotionId, String code, String content, Double percentage, LocalDateTime startDate, LocalDateTime endDate, Integer maxUsage) {
+        promotionId = promotionId;
         Code = code;
         this.content = content;
         Percentage = percentage;
