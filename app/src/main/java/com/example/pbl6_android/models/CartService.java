@@ -31,7 +31,7 @@ public class CartService  extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        System.out.println("test blind");
+
 
         return binder ;
     }

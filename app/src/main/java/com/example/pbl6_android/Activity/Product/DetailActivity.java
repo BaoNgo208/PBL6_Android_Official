@@ -16,10 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pbl6_android.CartActivity;
 import com.example.pbl6_android.OrderSummaryActivity;
 import com.example.pbl6_android.R;
-import com.example.pbl6_android.SelectPaymentMethodActivity;
+
 import com.example.pbl6_android.adapters.ReviewAdapter;
+import com.example.pbl6_android.models.Cart;
 import com.example.pbl6_android.models.CartService;
 import com.example.pbl6_android.models.PageState;
 import com.example.pbl6_android.models.Product;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -50,6 +53,7 @@ public class DetailActivity extends AppCompatActivity {
     ReviewAdapter reviewAdapter;
     List<Review> reviewList;
     Button viewMoreButton;
+    List<Product> productItems;
     private static final int PAGE_SIZE = 5;
 
     UUID productId ;
@@ -66,8 +70,11 @@ public class DetailActivity extends AppCompatActivity {
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
+        productItems = new ArrayList<>();
         Product product = getIntent().getParcelableExtra("product");
+        productItems.add(product);
         productId = product.getProductId();
+
 
 
         reviewList = new ArrayList<>();
@@ -123,7 +130,8 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetailActivity.this, OrderSummaryActivity.class);
-                intent.putExtra("product", (Parcelable) product);
+//                intent.putExtra("product", (Parcelable) product);
+                intent.putParcelableArrayListExtra("productItems" , (ArrayList<? extends Parcelable>) productItems);
                 startActivity(intent);
             }
         });
@@ -132,15 +140,8 @@ public class DetailActivity extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addToCart(product.getProductId());
 
-                Intent intent = new Intent(DetailActivity.this, CartService.class);
-                intent.setAction("ADD_TO_CART");
-                intent.putExtra("product", product);
-                startService(intent);
-
-                Toast.makeText(DetailActivity.this,
-                        "Đã thêm vào giỏ hàng",
-                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -180,30 +181,46 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    private void addToCart(UUID productId) {
+
+        Call<Cart> call = retrofitInterface.addProductToCart(productId);
+        call.enqueue(new Callback<Cart>() {
+            @Override
+            public void onResponse(Call<Cart> call, Response<Cart> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(DetailActivity.this,
+                            "Đã thêm vào giỏ hàng",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cart> call, Throwable t) {
+                Toast.makeText(DetailActivity.this,
+                        "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
     private void createReview(Review newReview) {
         Call<Review> call = retrofitInterface.createReview(newReview);
-        System.out.println("called");
         call.enqueue(new Callback<Review>() {
             @Override
             public void onResponse(Call<Review> call, Response<Review> response) {
                 if(response.code() == 201 && response.body() != null) {
-                    System.out.println("called successfully");
                     reviewList.add(response.body());
-                    System.out.println("comment:"+response.body().getComment());
                     reviewAdapter.notifyDataSetChanged();
                 }
                 else {
-                    System.out.println("call failed with code: " + response.code());
                     // Log the response body if it exists
                     if (response.errorBody() != null) {
                         try {
                             String errorResponse = response.errorBody().string();
-                            System.out.println("Error response: " + errorResponse);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        System.out.println("Response body is null.");
                     }
                 }
             }

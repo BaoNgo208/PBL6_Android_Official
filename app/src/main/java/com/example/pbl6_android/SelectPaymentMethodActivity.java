@@ -39,23 +39,34 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
     private String BASE_URL = "http://10.0.2.2:5273/";
     String promtionId;
 
-    private Order createOrder(Product selectedProduct) {
+    public List<Product> productItem;
+
+    private Order createOrder(List<Product> selectedProduct , ArrayList<Integer> quantity) {
         System.out.println("final check:" +promtionId);
-       return new Order("Pending", new ArrayList<OrderDetail>(){
-            {
-                add(new OrderDetail(1,selectedProduct.getProductId()));
-            }
-        }, promtionId);
+        List<OrderDetail> orderDetails = new ArrayList<>();
+
+        for (int i = 0; i < selectedProduct.size(); i++) {
+            Product product = selectedProduct.get(i);
+            int qty = quantity.get(i);
+            System.out.println("quantity check:" + qty);
+            orderDetails.add(new OrderDetail(qty, product.getProductId()));
+        }
+        return new Order("Pending", orderDetails, promtionId);
 
     }
 
-    private Order createOrderWithoutPromotion(Product selectedProduct) {
+    private Order createOrderWithoutPromotion(List<Product> selectedProduct , ArrayList<Integer> quantity) {
 
-        return new Order("Pending", new ArrayList<OrderDetail>(){
-            {
-                add(new OrderDetail(1,selectedProduct.getProductId()));
-            }
-        });
+        List<OrderDetail> orderDetails = new ArrayList<>();
+
+        // Create an OrderDetail for each product with corresponding quantity
+        for (int i = 0; i < selectedProduct.size(); i++) {
+            Product product = selectedProduct.get(i);
+            int qty = quantity.get(i);
+            orderDetails.add(new OrderDetail(qty, product.getProductId()));
+        }
+
+        return new Order("Pending", orderDetails);
     }
 
     private void sendOrderAndRedirect(String paymentMethod, Order order) {
@@ -106,6 +117,7 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(SelectPaymentMethodActivity.this,
                         "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
     }
@@ -127,18 +139,16 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-//        Product product = (Product) getIntent().getSerializableExtra("product");
 
-        Product product = getIntent().getParcelableExtra("product");
+//        Product product = getIntent().getParcelableExtra("product");
         promtionId = getIntent().getStringExtra("promotionId");
 
-        System.out.println("product id:"+product.getProductId());
-        System.out.println("product price after discount:"+promtionId);
-
-//        webViewPayment = findViewById(R.id.webview_payment);
-//        webViewPayment.setWebViewClient(new WebViewClient());
-//        webViewPayment.getSettings().setJavaScriptEnabled(true);
-
+        productItem = new ArrayList<>();
+        productItem = getIntent().getParcelableArrayListExtra("productItems");
+        ArrayList<Integer> quantitiesList = getIntent().getIntegerArrayListExtra("quantities");
+        for(int i = 0 ; i< quantitiesList.size();i++) {
+            System.out.println("quantity item check:" + quantitiesList.get(i));
+        }
 
         RadioGroup paymentMethods = findViewById(R.id.payment_methods);
         Button confirmButton = findViewById(R.id.btn_confirm_payment);
@@ -154,10 +164,10 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
                     String selectedPaymentMethod = selectedRadioButton.getText().toString();
                     Order newOrder;
                     if(promtionId.isEmpty())  {
-                        newOrder = createOrderWithoutPromotion(product);
+                        newOrder = createOrderWithoutPromotion(productItem,quantitiesList);
                     }
                     else {
-                        newOrder = createOrder(product);
+                        newOrder = createOrder(productItem,quantitiesList);
                     }
                     Gson gson = new Gson();
                     String jsonOrder = gson.toJson(newOrder);
@@ -187,6 +197,7 @@ public class SelectPaymentMethodActivity extends AppCompatActivity {
                     Toast.makeText(SelectPaymentMethodActivity.this,
                             "Vui lòng chọn phương thức thanh toán!",
                             Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

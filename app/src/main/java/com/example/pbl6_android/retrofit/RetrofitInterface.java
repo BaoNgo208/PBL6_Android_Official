@@ -1,5 +1,7 @@
 package com.example.pbl6_android.retrofit;
 
+import com.example.pbl6_android.CartActivity;
+import com.example.pbl6_android.models.Cart;
 import com.example.pbl6_android.models.Order;
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.models.Promotion;
@@ -47,4 +49,12 @@ public interface RetrofitInterface {
 
     @GET("/Promotion/getPromotionCode/{code}")
     Call<Promotion> getPromotionCode(@Path("code") String code);
+
+    @POST("/Cart/addProductToCart")
+    Call<Cart> addProductToCart(@Query("productId") UUID productId);
+
+    @GET("/Cart/getCartOfUser")
+    Call<Cart> getCartOfUser(@Query("userId") UUID userId);
+
+
 }
