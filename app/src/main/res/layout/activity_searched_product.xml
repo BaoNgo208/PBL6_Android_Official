@@ -6,42 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Product.SearchedProductActivity">
 
+<!--        <EditText-->
+<!--        android:id="@+id/searched_result_search_bar"-->
+<!--        android:layout_width="250dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="6dp"-->
+<!--        android:background="@drawable/search_bg"-->
+<!--        android:drawableLeft="@drawable/nav_search"-->
+<!--        android:drawablePadding="9dp"-->
+<!--        android:fontFamily="serif"-->
+<!--        android:hint="Search for product"-->
+<!--        android:padding="10dp"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textColorHint="@color/white"-->
+<!--        android:textSize="13sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/search_result_back"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"/>-->
+
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searched_result_search_bar"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:layout_marginStart="52dp"
+        android:background="@drawable/rounded_search_bg"
+        android:padding="10dp"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Tìm kiếm..."
+        app:layout_constraintStart_toEndOf="@id/search_result_back"
+        tools:ignore="MissingConstraints"
+        />
+
+
     <ImageView
         android:id="@+id/search_result_back"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/searched_result_search_bar"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"/>
-
-    <EditText
-        android:id="@+id/searched_result_search_bar"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:background="@drawable/search_bg"
-        android:drawableLeft="@drawable/nav_search"
-        android:drawablePadding="9dp"
-        android:fontFamily="serif"
-        android:hint="Search for product"
-        android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="@color/white"
-        android:textSize="13sp"
+        android:src="@drawable/back"
+        app:layout_constraintBottom_toBottomOf="@id/searched_result_search_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/search_result_back"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintVertical_bias="0.574" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="88dp"
         android:textStyle="bold"
         android:fontFamily="@font/adlam_display"
         android:textSize="26sp"

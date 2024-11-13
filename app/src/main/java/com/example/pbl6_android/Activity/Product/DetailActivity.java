@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -70,10 +73,30 @@ public class DetailActivity extends AppCompatActivity {
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
+
         productItems = new ArrayList<>();
         Product product = getIntent().getParcelableExtra("product");
         productItems.add(product);
         productId = product.getProductId();
+
+        WebView webView = findViewById(R.id.webView);
+
+        // Cấu hình WebView
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+
+
+        webView.setWebViewClient(new WebViewClient());
+
+
+        String iframe = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/gDl3s-5x6wM?si=fyH8ZACz47ED_EYL\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>";
+
+
+        webView.loadDataWithBaseURL(null, iframe, "text/html", "utf-8", null);
+
+
 
 
 
@@ -86,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
         reviewRec.setAdapter(reviewAdapter);
         reviewRec.setLayoutManager(new GridLayoutManager(this,1));
         pageState = new PageState();
-        pageState.currentPage = 1;  // Set initial page
+        pageState.currentPage = 1;
 
 
         TextView title = findViewById(R.id.detail_title);

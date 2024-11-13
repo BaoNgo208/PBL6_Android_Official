@@ -46,6 +46,7 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
 
             if(holder.name.getText() != "Đánh giá") {
                 Intent intent = new Intent(context, OrderHistoryActivity.class);
+                intent.putExtra("STATUS",holder.name.getText());
                 context.startActivity(intent);
             }
             else {

@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +33,7 @@ public class    OrderHistoryActivity extends AppCompatActivity {
 
     RecyclerView orderHistoryRec;
     OrderHistoryAdapter orderHistoryAdapter;
-    private static final String STATUS = "done";
+    private  String STATUS ;
 
 
     //Retrofit fetch api backend
@@ -46,7 +47,17 @@ public class    OrderHistoryActivity extends AppCompatActivity {
 
 
     private void fetchRecommendedProducts(int page) {
-        Call<List<Order>> call = retrofitInterface.getOrderByStatus(STATUS,page, PAGE_SIZE);
+        STATUS= getIntent().getStringExtra("STATUS");
+
+        String DbStatus = null;
+        if(Objects.equals(STATUS, "Đang chờ")) {
+            DbStatus = "Pending";
+        }
+        else if(Objects.equals(STATUS,"Đã thanh toán")) {
+            DbStatus = "done";
+        }
+
+        Call<List<Order>> call = retrofitInterface.getOrderByStatus(DbStatus,page, PAGE_SIZE);
 
         call.enqueue(new Callback<List<Order>>() {
             @Override

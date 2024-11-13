@@ -20,6 +20,9 @@ import com.example.pbl6_android.models.Order;
 import com.example.pbl6_android.models.Product;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
@@ -61,6 +64,21 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 
         holder.price.setText(formattedPrice);
+
+        try {
+            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS");
+
+            Date date = originalFormat.parse(order.getOrderDate());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDate = dateFormat.format(date);
+
+            holder.orderedDate.setText(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            holder.orderedDate.setText("Invalid Date");
+        }
+
         holder.bind(product);
 
 

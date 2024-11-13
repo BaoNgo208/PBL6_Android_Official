@@ -32,6 +32,7 @@ public class Product implements Parcelable {
             stock = in.readInt();
         }
         imageUrl = in.readString();
+
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -58,7 +59,19 @@ public class Product implements Parcelable {
     private  String description;
     private Double price;
     private Integer stock;
+
+    private Video video;
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public void setVideo(Video video) {
+        this.video = video;
+    }
+
     private  String imageUrl;
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -142,5 +155,7 @@ public class Product implements Parcelable {
             dest.writeInt(stock);
         }
         dest.writeString(imageUrl);
+
+
     }
 }

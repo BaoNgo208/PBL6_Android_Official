@@ -1,6 +1,7 @@
 package com.example.pbl6_android.Activity.Product;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -127,34 +128,71 @@ public class SearchedProductActivity extends AppCompatActivity implements Recomm
         });
 
 
-        EditText editText = findViewById(R.id.searched_result_search_bar);
+//        EditText editText = findViewById(R.id.searched_result_search_bar);
+//
+//
+//        editText.setOnTouchListener((v, event) -> {
+//            if (event.getAction() == MotionEvent.ACTION_UP) {
+//                Drawable leftDrawable = editText.getCompoundDrawables()[0]; // Left drawable
+//                if (leftDrawable != null) {
+//                    int drawableWidth = leftDrawable.getBounds().width();
+//                    int clickArea = editText.getPaddingLeft() + drawableWidth;
+//
+//                    if (event.getX() <= clickArea) {
+//                        String searchQuery = editText.getText().toString().trim();
+//
+//                        if (!searchQuery.isEmpty()) {
+//                            Intent intent = new Intent(editText.getContext(), SearchedProductActivity.class);
+//                            intent.putExtra("product", searchQuery);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//
+//                            ((Activity) editText.getContext()).finish();
+//
+//                            editText.getContext().startActivity(intent);
+//
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//            return false;
+//        });
 
 
-        editText.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                Drawable leftDrawable = editText.getCompoundDrawables()[0]; // Left drawable
-                if (leftDrawable != null) {
-                    int drawableWidth = leftDrawable.getBounds().width();
-                    int clickArea = editText.getPaddingLeft() + drawableWidth;
+        SearchView searchView = findViewById(R.id.searched_result_search_bar);
+        boolean[] isActivityStarted = {false}; // Use an array or a boolean reference to modify within lambda
 
-                    if (event.getX() <= clickArea) {
-                        String searchQuery = editText.getText().toString().trim();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!isActivityStarted[0] && !query.trim().isEmpty()) { // Check if activity not already started
+                    isActivityStarted[0] = true; // Set flag to true
 
-                        if (!searchQuery.isEmpty()) {
-                            Intent intent = new Intent(editText.getContext(), SearchedProductActivity.class);
-                            intent.putExtra("product", searchQuery);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    Intent intent = new Intent(searchView.getContext(), SearchedProductActivity.class);
+                    intent.putExtra("product", query.trim());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                            ((Activity) editText.getContext()).finish();
+                    searchView.clearFocus(); // Clear focus to avoid reopening
 
-                            editText.getContext().startActivity(intent);
+                    ((Activity) searchView.getContext()).finish();
+                    searchView.getContext().startActivity(intent);
 
-                            return true;
-                        }
-                    }
+                    return true;
                 }
+                return false;
             }
-            return false;
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false; // No action on text change
+            }
+        });
+
+// Reset the flag when returning to this activity
+        searchView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                isActivityStarted[0] = false; // Reset the flag when focus is lost
+            }
         });
 
         ImageView back = findViewById(R.id.search_result_back);

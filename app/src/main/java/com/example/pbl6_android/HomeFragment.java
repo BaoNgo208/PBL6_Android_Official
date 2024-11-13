@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import androidx.appcompat.widget.SearchView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.example.pbl6_android.models.PageState;
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.Activity.Promote.PromoteActivity;
 import com.example.pbl6_android.retrofit.RetrofitInterface;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment implements RecommendedProductAdapter.OnProductClickListener , HomeHorAdapter.OnCategoryClickListener {
-
+    private boolean isActivityStarted = false;
     private PageState pageState;
     private PageState newPageState;
 
@@ -227,32 +230,67 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
             }
         });
 
-        EditText editText = root.findViewById(R.id.search_bar);
+//        EditText editText = root.findViewById(R.id.search_bar);
+//
+//        editText.setOnTouchListener((v, event) -> {
+//            if (event.getAction() == MotionEvent.ACTION_UP) {
+//                if (event.getRawX() <= (editText.getCompoundDrawables()[0].getBounds().width() + editText.getPaddingLeft())) {
+//                    String searchQuery = editText.getText().toString().trim();
+//
+//                    Intent intent = new Intent(root.getContext(), SearchedProductActivity.class);
+//                    intent.putExtra("product", searchQuery);
+//                    startActivity(intent);
+//                    v.performClick();
+//                    return true;
+//                }
+//            }
+//            return false;
+//        });
 
-        editText.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (event.getRawX() <= (editText.getCompoundDrawables()[0].getBounds().width() + editText.getPaddingLeft())) {
-                    String searchQuery = editText.getText().toString().trim();
+
+        SearchView searchView = root.findViewById(R.id.search_bar);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!isActivityStarted) {
+                    isActivityStarted = true;
+                    String searchQuery = query.trim();
 
                     Intent intent = new Intent(root.getContext(), SearchedProductActivity.class);
                     intent.putExtra("product", searchQuery);
                     startActivity(intent);
-                    v.performClick();
-                    return true;
+
+                    searchView.clearFocus();
                 }
+                return true;
             }
-            return false;
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+
         });
 
         return root;
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isActivityStarted = false; // Reset the flag when returning to this fragment/activity
+    }
 
     @Override
     public void onProductClick(Product product) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("product",product);
+        Gson gson = new Gson();
+        String json = gson.toJson(product);
+        System.out.println("Parsed Product JSON: " + json);
 
         startActivity(intent);
     }
