@@ -32,9 +32,11 @@ public interface RetrofitInterface {
     @GET("/Product/getProductByName")
     Call<List<Product>> getProductByName(@Query("productName") String name, @Query("page") int page, @Query("size") int size);
 
-
     @GET("/Product/getProductTrending")
     Call<List<Product>> getProductTrending(@Query("page") int page, @Query("size") int size);
+
+    @GET("/Product/getProductNew")
+    Call<List<Product>> getProductNew(@Query("page") int page, @Query("size") int size);
 
     @GET("/Review/{productId}")
     Call<List<Review>> getReviewsByProduct(@Path("productId") UUID productId, @Query("page")int page, @Query("size") int size);
