@@ -18,9 +18,8 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ReviewProductActivity.class);
+                Intent i = new Intent(MainActivity.this, Home.class);
                 startActivity(i);
-
             }
         });
     }
