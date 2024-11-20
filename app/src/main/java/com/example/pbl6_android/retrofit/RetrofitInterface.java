@@ -56,5 +56,9 @@ public interface RetrofitInterface {
     @GET("/Cart/getCartOfUser")
     Call<Cart> getCartOfUser(@Query("userId") UUID userId);
 
+    @GET("/Product/getProductNotYetReview")
+    Call<List<Product>> getProductsNotYetReview(@Query("page") int page, @Query("size") int size);
+
+
 
 }

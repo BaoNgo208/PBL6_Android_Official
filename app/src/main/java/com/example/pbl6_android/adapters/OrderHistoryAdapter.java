@@ -111,7 +111,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 public void onClick(View v) {
                     Intent i = new Intent(itemView.getContext(), DetailActivity.class);
                     i.putExtra("product", product);
-                    System.out.println("Product name: " + product.getName());
                     itemView.getContext().startActivity(i);
                 }
             });

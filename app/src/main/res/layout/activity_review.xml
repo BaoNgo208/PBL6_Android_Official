@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -40,39 +41,32 @@
     </LinearLayout>
 
     <!-- Tab Bar -->
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
+        android:background="@android:color/white"
+        app:tabIndicatorColor="#FF5722"
+        app:tabSelectedTextColor="#FF5722"
+        app:tabTextColor="#666666"
         app:layout_constraintTop_toBottomOf="@+id/top_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
+        <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_unrated"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="Chưa đánh giá"
-            android:textColor="#666666"
-            android:textSize="16sp" />
+            android:text="Chưa đánh giá" />
 
-        <TextView
+        <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_rated"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="8dp"
             android:text="Đã đánh giá"
-            android:textColor="#FF5722"
-            android:textSize="16sp" />
-    </LinearLayout>
+            tools:layout_editor_absoluteX="198dp"
+            tools:layout_editor_absoluteY="62dp" />
+    </com.google.android.material.tabs.TabLayout>
 
     <!-- Divider -->
     <View
@@ -86,7 +80,7 @@
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_cart"
+        android:id="@+id/not_review_product_rec"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"

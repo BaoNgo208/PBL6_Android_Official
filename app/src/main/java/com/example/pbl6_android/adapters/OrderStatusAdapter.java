@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pbl6_android.Activity.Order.OrderHistoryActivity;
+import com.example.pbl6_android.Activity.User.ReviewPastProduct;
 import com.example.pbl6_android.OrderStatusActivity;
 import com.example.pbl6_android.R;
 import com.example.pbl6_android.ReviewProductActivity;
@@ -22,6 +23,8 @@ import java.util.List;
 public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.ViewHolder>  {
     Context context;
     List<OrderStatus> orderStatusList;
+
+
 
     public OrderStatusAdapter(Context context, List<OrderStatus> orderStatusList) {
         this.context = context;
@@ -50,7 +53,7 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
                 context.startActivity(intent);
             }
             else {
-                Intent intent = new Intent(context, ReviewProductActivity.class);
+                Intent intent = new Intent(context, ReviewPastProduct.class);
                 context.startActivity(intent);
             }
 
