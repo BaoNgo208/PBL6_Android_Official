@@ -95,8 +95,7 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
 
         productList =new ArrayList<>();
         fetchRecommendedProducts(1);
-
-
+        fetchNewProducts(1);
     }
 
     private void loadMoreItems(List<Product> list, RecyclerView.Adapter<?> adapter, PageState state) {
@@ -141,6 +140,31 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
                 pageState.isLoading = false;
             }
         });
+
+    }
+    private void fetchNewProducts(int page) {
+        Call<List<Product>> call = retrofitInterface.getProductNew(page, PAGE_SIZE);
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Product> fetchedProducts = response.body();
+
+                    productList.addAll(fetchedProducts);
+                    newProductAdapter.notifyDataSetChanged();
+                    if (fetchedProducts.size() < PAGE_SIZE) {
+                        pageState.isLastPage = true;
+                    }
+                    pageState.isLoading = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                pageState.isLoading = false;
+            }
+        });
+
     }
     private void loadMoreRecommendedItems(PageState state) {
         state.isLoading = true;
@@ -199,15 +223,31 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         newProduct = root.findViewById(R.id.new_product);
         newProductList = new ArrayList<>();
 
-        newProductList.add(new Product("Băng cá nhân", 32.000, "pizza"));
-        newProductList.add(new Product("Băng cá nhân", 32.000, "pizza"));
-        newProductList.add(new Product("Băng cá nhân", 32.000, "pizza"));
-        newProductList.add(new Product("Băng cá nhân", 32.000, "pizza"));
-
-        newProductAdapter = new NewProductAdapter(getActivity(), newProductList);
+        newProductAdapter = new NewProductAdapter(getActivity(), productList);
         newProduct.setAdapter(newProductAdapter);
         newProduct.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
         newPageState = new PageState();
+        newPageState.currentPage=1;
+        newProduct.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if (!pageState.isLoading && !pageState.isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= PAGE_SIZE) {
+                        loadMoreTrendingItems(pageState);
+                    }
+                }
+            }
+        });
         viewMoreNewProducts = root.findViewById(R.id.view_more_new_products);
         setupViewMore(viewMoreNewProducts, newProductList, newProductAdapter, newPageState);
 
@@ -276,6 +316,30 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
 
         return root;
     }
+//    private void fetchNewProducts(int page) {
+//        Call<List<Product>> call = retrofitInterface.getProductNew(page, PAGE_SIZE);
+//        call.enqueue(new Callback<List<Product>>() {
+//            @Override
+//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<Product> fetchedProducts = response.body();
+//
+//                    productList.addAll(fetchedProducts);
+//                    newProductAdapter.notifyDataSetChanged();
+//
+//                    if (fetchedProducts.size() < PAGE_SIZE) {
+//                        pageState.isLastPage = true;
+//                    }
+//                    pageState.isLoading = false;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Product>> call, Throwable t) {
+//                pageState.isLoading = false;
+//            }
+//        });
+//    }
 
 
     @Override
@@ -301,5 +365,10 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         intent.putExtra("categoryName",category.getName());
         System.out.println("category name:" + category.getName());
         startActivity(intent);
+    }
+    private void loadMoreTrendingItems(PageState state) {
+        state.isLoading = true;
+        state.currentPage++;
+        fetchRecommendedProducts(state.currentPage);
     }
 }
