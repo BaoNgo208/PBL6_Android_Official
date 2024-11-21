@@ -42,7 +42,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment implements RecommendedProductAdapter.OnProductClickListener , HomeHorAdapter.OnCategoryClickListener {
+public class HomeFragment extends Fragment implements RecommendedProductAdapter.OnProductClickListener , HomeHorAdapter.OnCategoryClickListener
+,NewProductAdapter.OnNewProductClickListener
+{
     private boolean isActivityStarted = false;
     private PageState pageState;
     private PageState newPageState;
@@ -150,7 +152,7 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
                 if (response.isSuccessful() && response.body() != null) {
                     List<Product> fetchedProducts = response.body();
 
-                    productList.addAll(fetchedProducts);
+                    newProductList.addAll(fetchedProducts);
                     newProductAdapter.notifyDataSetChanged();
                     if (fetchedProducts.size() < PAGE_SIZE) {
                         pageState.isLastPage = true;
@@ -172,12 +174,18 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         fetchRecommendedProducts(state.currentPage);
     }
 
+    private void loadMoreNewItems(PageState state) {
+        state.isLoading = true;
+        state.currentPage++;
+        fetchNewProducts(state.currentPage);
+    }
+
 
     private void setupViewMore(TextView viewMoreButton, List<Product> list, RecyclerView.Adapter<?> adapter, PageState state) {
         viewMoreButton.setOnClickListener(v -> {
             if (!state.isLoading && !state.isLastPage) {
 //                loadMoreItems(list, adapter, state);
-                loadMoreRecommendedItems(state);
+                loadMoreNewItems(state);
             }
         });
     }
@@ -223,31 +231,33 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         newProduct = root.findViewById(R.id.new_product);
         newProductList = new ArrayList<>();
 
-        newProductAdapter = new NewProductAdapter(getActivity(), productList);
+        newProductAdapter = new NewProductAdapter(getActivity(), newProductList,this);
         newProduct.setAdapter(newProductAdapter);
         newProduct.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         newPageState = new PageState();
         newPageState.currentPage=1;
-        newProduct.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+//        newProduct.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//
+//                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+//                int visibleItemCount = layoutManager.getChildCount();
+//                int totalItemCount = layoutManager.getItemCount();
+//                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+//
+//                if (!pageState.isLoading && !pageState.isLastPage) {
+//                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+//                            && firstVisibleItemPosition >= 0
+//                            && totalItemCount >= PAGE_SIZE) {
+//                        loadMoreTrendingItems(pageState);
+//                    }
+//                }
+//            }
+//        });
 
-                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-                if (!pageState.isLoading && !pageState.isLastPage) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                            && firstVisibleItemPosition >= 0
-                            && totalItemCount >= PAGE_SIZE) {
-                        loadMoreTrendingItems(pageState);
-                    }
-                }
-            }
-        });
         viewMoreNewProducts = root.findViewById(R.id.view_more_new_products);
         setupViewMore(viewMoreNewProducts, newProductList, newProductAdapter, newPageState);
 
@@ -354,10 +364,20 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         intent.putExtra("product",product);
         Gson gson = new Gson();
         String json = gson.toJson(product);
-        System.out.println("Parsed Product JSON: " + json);
+        System.out.println("Parsed Product from Home frag JSON: " + json);
 
         startActivity(intent);
     }
+
+    @Override
+    public void onNewProductClick(Product product) {
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("product",product);
+
+
+        startActivity(intent);
+    }
+
 
     @Override
     public void onCategoryClick(Category category) {
@@ -371,4 +391,6 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
         state.currentPage++;
         fetchRecommendedProducts(state.currentPage);
     }
+
+
 }

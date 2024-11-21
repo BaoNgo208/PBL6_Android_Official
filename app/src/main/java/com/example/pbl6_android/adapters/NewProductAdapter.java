@@ -22,22 +22,22 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.Vi
 
     Context context;
     List<Product> productList;
-    private OnProductClickListener productClickListener;
+    private OnNewProductClickListener newProductClickListener;
 
-    public interface OnProductClickListener {
-        void onProductClick(Product product);
+    public interface OnNewProductClickListener {
+        void onNewProductClick(Product product);
     }
 
     @NonNull
     @Override
     public NewProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_product,parent,false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.new_product,parent,false));
     }
 
-    public NewProductAdapter(Context context, List<Product> productList,OnProductClickListener productClickListener) {
+    public NewProductAdapter(Context context, List<Product> productList,OnNewProductClickListener productClickListener) {
         this.context = context;
         this.productList = productList;
-        this.productClickListener = productClickListener;
+        this.newProductClickListener = productClickListener;
     }
 
     public NewProductAdapter(Context context, List<Product> productList) {
@@ -74,8 +74,8 @@ public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.Vi
 
 
         holder.itemView.setOnClickListener(v -> {
-            if (productClickListener != null) {
-                productClickListener.onProductClick(product);
+            if (newProductClickListener != null) {
+                newProductClickListener.onNewProductClick(product);
             }
         });
     }

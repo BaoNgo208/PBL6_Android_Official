@@ -1,10 +1,13 @@
 package com.example.pbl6_android.Activity.Product;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -30,10 +33,18 @@ import com.example.pbl6_android.models.PageState;
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.models.Review;
 import com.example.pbl6_android.retrofit.RetrofitInterface;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -44,12 +55,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
     private String BASE_URL = "http://10.0.2.2:5273/";
-
+    private GoogleMap googleMap;
 
     private PageState pageState;
     RecyclerView reviewRec;
@@ -78,6 +89,16 @@ public class DetailActivity extends AppCompatActivity {
         Product product = getIntent().getParcelableExtra("product");
         productItems.add(product);
         productId = product.getProductId();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(product);
+        System.out.println("Parsed Product JSON from detail : " + json);
+
+        Log.d("Brand Locations", new Gson().toJson(product.getBrand().getLocations()));
+
+
+//        System.out.println("product brand:" + product.getBrand().getBrandName());
+        System.out.println("product location:" + product.getBrand().getLocations().size());
 
         WebView webView = findViewById(R.id.webView);
 
@@ -155,6 +176,8 @@ public class DetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(DetailActivity.this, OrderSummaryActivity.class);
 //                intent.putExtra("product", (Parcelable) product);
                 intent.putParcelableArrayListExtra("productItems" , (ArrayList<? extends Parcelable>) productItems);
+                ArrayList<Integer> quantitiesList = new ArrayList<>(Collections.singletonList(1));
+                intent.putIntegerArrayListExtra("quantities", quantitiesList);
                 startActivity(intent);
             }
         });
@@ -201,7 +224,8 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-
+        SupportMapFragment mapFragment =(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     private void addToCart(UUID productId) {
@@ -292,4 +316,33 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.googleMap = googleMap;
+
+        String address = productItems.get(0).getBrand().getLocations().get(0).getName();
+        geocodeAddress(address);
+    }
+
+    private void geocodeAddress(String address) {
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            List<Address> addressList = geocoder.getFromLocationName(address, 1);
+            if (addressList != null && !addressList.isEmpty()) {
+                Address location = addressList.get(0);
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+
+                // Hiển thị Marker trên bản đồ
+                LatLng latLng = new LatLng(latitude, longitude);
+                googleMap.addMarker(new MarkerOptions().position(latLng).title(address));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 22f)); // Zoom vào vị trí
+            } else {
+                Toast.makeText(this, "Không tìm thấy địa chỉ", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Geocoding", "Error getting location from address", e);
+        }
+    }
 }

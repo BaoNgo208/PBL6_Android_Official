@@ -50,6 +50,8 @@ public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedP
     public void onBindViewHolder(@NonNull RecommendedProductAdapter.ViewHolder holder, int position) {
         Product product = productList.get(position);
 
+//        System.out.println("check product location:" + product.getBrand().getLocations().get(0).getName());
+
         // Get the image resource ID dynamically using the image name
         int imageResource = context.getResources().getIdentifier(product.getImageUrl(), "drawable", context.getPackageName());
 

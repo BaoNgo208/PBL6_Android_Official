@@ -33,6 +33,8 @@ public class Product implements Parcelable {
         }
         imageUrl = in.readString();
 
+        brand = in.readParcelable(Brand.class.getClassLoader());
+
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -142,6 +144,7 @@ public class Product implements Parcelable {
         dest.writeString(description);
         dest.writeLong(ProductId.getMostSignificantBits());
         dest.writeLong(ProductId.getLeastSignificantBits());
+
         if (price == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -155,6 +158,9 @@ public class Product implements Parcelable {
             dest.writeInt(stock);
         }
         dest.writeString(imageUrl);
+
+        dest.writeParcelable(brand, flags);
+
 
 
     }
