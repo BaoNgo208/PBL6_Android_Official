@@ -43,7 +43,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         int imageResource = context.getResources().getIdentifier(review.getProduct().getImageUrl(), "drawable", context.getPackageName());
         Glide.with(context).load(imageResource).into(holder.productImage);
 
-        holder.username.setText(review.getUser().getUserName());
+//        holder.username.setText(review.getUser().getUserName());
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Định dạng tùy chỉnh
 //        String formattedDate = dateFormat.format(review.getReviewDate());
 //        holder.reviewDate.setText(formattedDate);

@@ -18,52 +18,44 @@ import com.example.pbl6_android.models.Product;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedProductAdapter.ViewHolder>{
-
+public class SuggestedByCategoryAdapter  extends RecyclerView.Adapter<SuggestedByCategoryAdapter.ViewHolder>{
     Context context;
+
     List<Product> productList;
-    private OnProductClickListener productClickListener;
 
-    public interface OnProductClickListener {
-        void onProductClick(Product product);
+    private OnSuggestedProductClickListener productClickListener;
+    public interface OnSuggestedProductClickListener {
+        void onSuggestedProductClick(Product product);
     }
 
-    @NonNull
-    @Override
-    public RecommendedProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_product,parent,false));
-    }
-
-    public RecommendedProductAdapter(Context context, List<Product> productList,OnProductClickListener productClickListener) {
+    public SuggestedByCategoryAdapter(Context context, List<Product> productList, OnSuggestedProductClickListener productClickListener) {
         this.context = context;
         this.productList = productList;
         this.productClickListener = productClickListener;
     }
 
+    @NonNull
+    @Override
+    public SuggestedByCategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_product,parent,false));
 
+    }
 
     @Override
-    public void onBindViewHolder(@NonNull RecommendedProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SuggestedByCategoryAdapter.ViewHolder holder, int position) {
         Product product = productList.get(position);
 
-//        System.out.println("check product location:" + product.getBrand().getLocations().get(0).getName());
 
-        // Get the image resource ID dynamically using the image name
         int imageResource = context.getResources().getIdentifier(product.getImageUrl(), "drawable", context.getPackageName());
 
-        // Use Glide to load the image by resource ID
         Glide.with(context).load(imageResource).into(holder.imageView);
 
         holder.name.setText(product.getName());
 
-        double price = product.getPrice(); // Nếu price là double từ database
+        double price = product.getPrice();
+        long roundedPrice = (long) price;
 
-        // Chuyển đổi giá thành long để loại bỏ phần thập phân
-        long roundedPrice = (long) price; // Lấy phần nguyên
-
-        // Định dạng giá trị thành chuỗi với dấu phẩy
         String formattedPrice = new DecimalFormat("#,###").format(roundedPrice) + " đồng";
-        // Kiểm tra và loại bỏ 2 ký tự cuối nếu có
 
         System.out.println("Giá đã định dạng: " + formattedPrice); // Kết quả sẽ là "20.000 đồn
 
@@ -72,7 +64,7 @@ public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedP
 
         holder.itemView.setOnClickListener(v -> {
             if (productClickListener != null) {
-                productClickListener.onProductClick(product);
+                productClickListener.onSuggestedProductClick(product);
             }
         });
     }
@@ -93,7 +85,6 @@ public class RecommendedProductAdapter extends RecyclerView.Adapter<RecommendedP
 
             TextView dollarDis = itemView.findViewById(R.id.dollar_dis);
             dollarDis.setPaintFlags(dollarDis.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//            price = imageView.findViewById(R.id.all_price);
         }
     }
 }

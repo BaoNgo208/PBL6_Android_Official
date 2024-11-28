@@ -123,8 +123,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
         fetchCartProduct(UUID.fromString("d4e56743-ff2c-41d3-957d-576e9f574c5d"));
 
 
-
-
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(this));
         cartAdapter = new CartAdapter(CartActivity.this,cartItemList, this);
 

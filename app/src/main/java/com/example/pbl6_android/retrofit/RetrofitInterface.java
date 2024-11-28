@@ -61,6 +61,7 @@ public interface RetrofitInterface {
     @GET("/Product/getProductNotYetReview")
     Call<List<Product>> getProductsNotYetReview(@Query("page") int page, @Query("size") int size);
 
-
+    @GET("/Product/getProductSuggestedByCategory")
+    Call<List<Product>> getProductSuggestedByCategory(@Query("userId") UUID userId,@Query("page") int page, @Query("size") int size);
 
 }
