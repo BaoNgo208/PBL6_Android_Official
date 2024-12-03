@@ -1,11 +1,12 @@
 package com.example.pbl6_android.retrofit;
 
-import com.example.pbl6_android.CartActivity;
 import com.example.pbl6_android.models.Cart;
 import com.example.pbl6_android.models.Order;
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.models.Promotion;
 import com.example.pbl6_android.models.Review;
+import com.example.pbl6_android.models.User1Dto;
+import com.example.pbl6_android.models.User2Dto;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -43,6 +45,18 @@ public interface RetrofitInterface {
 
     @POST("/User/rate")
     Call<Review> createReview(@Body Review newReview);
+
+    @GET("/User/{username}")
+    Call<User1Dto> getUserDetails(@Path("username") String username);
+    @POST("/User/update/{username}")
+    Call<Void> updateUser(
+            @Query("username") String username,
+            @Query("password") String password,
+            @Query("email") String email
+    );
+
+    @POST("/User/update-by-username/{username}")
+    Call<Void> updateUserInfo(@Path("username") String username, @Body User2Dto updatedInfo);
 
     @GET("/Product/getProductByCategory")
     Call<List<Product>> getProductsByCategory(@Query("categoryName") String categoryName,@Query("page") int page, @Query("size") int size);
