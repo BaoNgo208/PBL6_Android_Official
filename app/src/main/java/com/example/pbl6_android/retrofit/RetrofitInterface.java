@@ -31,13 +31,13 @@ public interface RetrofitInterface {
     @GET("/Order/getOrderByStatus")
     Call<List<Order>> getOrderByStatus(@Query("status") String status , @Query("page") int page, @Query("size") int size);
 
-    @GET("/Product/getProductByName")
+    @GET("/api/Product/getProductByName")
     Call<List<Product>> getProductByName(@Query("productName") String name, @Query("page") int page, @Query("size") int size);
 
-    @GET("/Product/getProductTrending")
+    @GET("/api/Product/getProductTrending")
     Call<List<Product>> getProductTrending(@Query("page") int page, @Query("size") int size);
 
-    @GET("/Product/getProductNew")
+    @GET("/api/Product/getProductNew")
     Call<List<Product>> getProductNew(@Query("page") int page, @Query("size") int size);
 
     @GET("/Review/{productId}")
@@ -46,8 +46,10 @@ public interface RetrofitInterface {
     @POST("/User/rate")
     Call<Review> createReview(@Body Review newReview);
 
-    @GET("/Product/getProductByCategory")
+    @GET("/api/Product/getProductByCategory")
     Call<List<Product>> getProductsByCategory(@Query("categoryName") String categoryName,@Query("page") int page, @Query("size") int size);
+    @GET("/api/Product/getProductByCategory")
+    Call<List<Product>> getAllProductsByCategory(@Query("categoryName") String categoryName, @Query("getAll") boolean getAll);
 
     @GET("/Promotion/getPromotionCode/{code}")
     Call<Promotion> getPromotionCode(@Path("code") String code);
@@ -58,10 +60,10 @@ public interface RetrofitInterface {
     @GET("/Cart/getCartOfUser")
     Call<Cart> getCartOfUser(@Query("userId") UUID userId);
 
-    @GET("/Product/getProductNotYetReview")
+    @GET("/api/Product/getProductNotYetReview")
     Call<List<Product>> getProductsNotYetReview(@Query("page") int page, @Query("size") int size);
 
-    @GET("/Product/getProductSuggestedByCategory")
+    @GET("/api/Product/getProductSuggestedByCategory")
     Call<List<Product>> getProductSuggestedByCategory(@Query("userId") UUID userId,@Query("page") int page, @Query("size") int size);
 
 }
