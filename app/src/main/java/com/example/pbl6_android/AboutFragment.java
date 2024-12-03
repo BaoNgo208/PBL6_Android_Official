@@ -78,7 +78,7 @@ public class AboutFragment extends Fragment implements SuggestedByCategoryAdapte
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Product> fetchedProducts = response.body();
-
+                    System.out.println("fetched list size:" + fetchedProducts.size());
                     productList.addAll(fetchedProducts);
 
                     adapter.notifyDataSetChanged();

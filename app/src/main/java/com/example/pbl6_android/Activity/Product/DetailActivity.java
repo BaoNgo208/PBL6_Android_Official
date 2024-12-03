@@ -3,6 +3,7 @@ package com.example.pbl6_android.Activity.Product;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.example.pbl6_android.OrderSummaryActivity;
 import com.example.pbl6_android.R;
 
 import com.example.pbl6_android.adapters.ReviewAdapter;
+import com.example.pbl6_android.adapters.SuggestedByCategoryAdapter;
 import com.example.pbl6_android.models.Cart;
 import com.example.pbl6_android.models.CartService;
 import com.example.pbl6_android.models.PageState;
@@ -55,7 +57,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback,SuggestedByCategoryAdapter.OnSuggestedProductClickListener  {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
@@ -63,6 +65,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private GoogleMap googleMap;
 
     private PageState pageState;
+    private PageState suggestedpageState;
+
     RecyclerView reviewRec;
     ReviewAdapter reviewAdapter;
     List<Review> reviewList;
@@ -71,6 +75,40 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int PAGE_SIZE = 5;
 
     UUID productId ;
+    List<Product> productList;
+    SuggestedByCategoryAdapter adapter;
+
+    RecyclerView suggestedProductRec;
+
+    private void fetchSuggestedProductByCategory(UUID userId,int page) {
+
+        Call<List<Product>> call = retrofitInterface.getProductSuggestedByCategory(userId,page,4);
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Product> fetchedProducts = response.body();
+
+                    productList.addAll(fetchedProducts);
+
+                    adapter.notifyDataSetChanged();
+
+                    if (fetchedProducts.size() < 4) {
+                        suggestedpageState.isLastPage = true;
+                    }
+                    suggestedpageState.isLoading = false;
+                }
+                else {
+                    Log.e("Retrofit", "Fetch failed with code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e("Retrofit", "Fetch failed: " + t.getMessage(), t);
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +156,40 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         webView.loadDataWithBaseURL(null, iframe, "text/html", "utf-8", null);
 
 
+
+        productList =new ArrayList<>();
+
+        fetchSuggestedProductByCategory(UUID.fromString("d4e56743-ff2c-41d3-957d-576e9f574c5d"),1);
+
+        suggestedProductRec = findViewById(R.id.recommended_product);
+        adapter = new SuggestedByCategoryAdapter(this,productList, (SuggestedByCategoryAdapter.OnSuggestedProductClickListener) this);
+        suggestedProductRec.setAdapter(adapter);
+        suggestedProductRec.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+
+        suggestedpageState = new PageState();
+        suggestedpageState.currentPage = 1;  // Set initial page
+        // Add scroll listener for pagination
+        suggestedProductRec.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager != null && !suggestedpageState.isLoading && !suggestedpageState.isLastPage) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= 4) {
+                        suggestedpageState.isLoading = true;
+                        suggestedpageState.currentPage++;
+                        fetchSuggestedProductByCategory(UUID.fromString("d4e56743-ff2c-41d3-957d-576e9f574c5d"), suggestedpageState.currentPage);
+                    }
+                }
+            }
+        });
 
 
 
@@ -344,5 +416,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             e.printStackTrace();
             Log.e("Geocoding", "Error getting location from address", e);
         }
+    }
+
+    @Override
+    public void onSuggestedProductClick(Product product) {
+
     }
 }
