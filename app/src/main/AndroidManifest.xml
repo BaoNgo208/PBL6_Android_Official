@@ -22,12 +22,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".Activity.User.ReviewPastProduct"
             android:exported="false" />
         <activity
             android:name=".Activity.Order.OrderSummaryActivity"
             android:exported="false" />
         <activity
+=======
+>>>>>>> origin/Nguyen03_12
             android:name=".Activity.Product.SearchedByCategoryActivity"
             android:exported="false" />
         <activity
@@ -75,6 +78,7 @@
         <activity android:name=".OrderSummaryActivity" />
         <activity android:name=".OrderStatusActivity" />
         <activity android:name=".ReviewProductActivity" />
+        <activity android:name=".ChangePasswordActivity" />
 
         <service android:name=".models.CartService" />
 
