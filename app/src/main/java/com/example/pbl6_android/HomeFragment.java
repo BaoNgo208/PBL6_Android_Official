@@ -326,30 +326,6 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
 
         return root;
     }
-//    private void fetchNewProducts(int page) {
-//        Call<List<Product>> call = retrofitInterface.getProductNew(page, PAGE_SIZE);
-//        call.enqueue(new Callback<List<Product>>() {
-//            @Override
-//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    List<Product> fetchedProducts = response.body();
-//
-//                    productList.addAll(fetchedProducts);
-//                    newProductAdapter.notifyDataSetChanged();
-//
-//                    if (fetchedProducts.size() < PAGE_SIZE) {
-//                        pageState.isLastPage = true;
-//                    }
-//                    pageState.isLoading = false;
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Product>> call, Throwable t) {
-//                pageState.isLoading = false;
-//            }
-//        });
-//    }
 
 
     @Override
@@ -373,8 +349,6 @@ public class HomeFragment extends Fragment implements RecommendedProductAdapter.
     public void onNewProductClick(Product product) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("product",product);
-
-
         startActivity(intent);
     }
 

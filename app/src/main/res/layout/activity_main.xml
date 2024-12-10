@@ -32,7 +32,7 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
-            android:text="User Name"
+            android:text=""
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
             android:textSize="14sp" />
@@ -47,7 +47,7 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
-            android:text="Password"
+            android:text=""
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
             android:textSize="14sp" />

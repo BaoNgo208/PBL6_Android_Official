@@ -1,12 +1,15 @@
 package com.example.pbl6_android.retrofit;
 
 import com.example.pbl6_android.models.Cart;
+import com.example.pbl6_android.models.LoginRequest;
+import com.example.pbl6_android.models.MissionCheckModel;
 import com.example.pbl6_android.models.Order;
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.models.Promotion;
 import com.example.pbl6_android.models.Review;
 import com.example.pbl6_android.models.User1Dto;
 import com.example.pbl6_android.models.User2Dto;
+import com.example.pbl6_android.models.UserInfo;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +24,10 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitInterface {
+
+    @POST("/api/Auth/Login")
+    Call<Object> login(@Body LoginRequest loginRequest);
+
     @GET("/Cart/getAllProduct")
     Call<List<Product>> getAllProduct(@Query("page") int page, @Query("size") int size);
 
@@ -80,5 +87,11 @@ public interface RetrofitInterface {
 
     @GET("/api/Product/getProductSuggestedByCategory")
     Call<List<Product>> getProductSuggestedByCategory(@Query("userId") UUID userId,@Query("page") int page, @Query("size") int size);
+
+    @GET("/api/UserInfo/Get/{username}")
+    Call<UserInfo> getUserInfo(@Path("username") String username);
+
+    @GET("/order/CheckMissionForBeginner")
+    Call<MissionCheckModel> checkUserBeginnerMission(@Query("userId") UUID userId);
 
 }

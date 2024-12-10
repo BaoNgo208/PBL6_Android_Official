@@ -48,6 +48,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     case R.id.bottom_history:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
                         return true;
+                    case R.id.bottom_ad:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AdFragment()).commit();
+                        return true;
+                    case R.id.bottom_mission:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MissionFragment()).commit();
+                        return true;
+
                 }
                 return false;
             }

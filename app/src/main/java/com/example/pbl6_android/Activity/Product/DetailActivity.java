@@ -420,6 +420,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     public void onSuggestedProductClick(Product product) {
-
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("product",product);
+        finish();
+        startActivity(intent);
     }
 }

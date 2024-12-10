@@ -14,6 +14,14 @@
         android:layout_height="wrap_content"
         android:icon="@drawable/baseline_person_24"
         android:title="Setting" />
+
+    <item
+        android:id="@+id/bottom_ad"
+
+        android:layout_width="wrap_content"
+        android:icon="@drawable/baseline_recommend_24"
+        android:layout_height="wrap_content"
+        android:title="Dành cho bạn" />
     <item
         android:id="@+id/bottom_history"
 
@@ -21,4 +29,16 @@
         android:icon="@drawable/baseline_history_24"
         android:layout_height="wrap_content"
         android:title="Order History" />
+
+    <item
+        android:id="@+id/bottom_mission"
+
+        android:layout_width="wrap_content"
+        android:icon="@drawable/baseline_task_24"
+        android:layout_height="wrap_content"
+        android:title="Nhiệm vụ cho bạn mới" />
+
+
+
+
 </menu>

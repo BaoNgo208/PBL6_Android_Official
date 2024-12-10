@@ -3,6 +3,7 @@ package com.example.pbl6_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pbl6_android.models.Product;
 import com.example.pbl6_android.models.Promotion;
+import com.example.pbl6_android.models.UserInfo;
 import com.example.pbl6_android.retrofit.RetrofitInterface;
 
 import java.io.Console;
@@ -42,6 +44,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     public String promotionId;
 
     public List<Product> productItem;
+    private UserInfo userInfo;
 
     private SparseIntArray convertArrayListToSparseIntArray(ArrayList<Integer> arrayList) {
         SparseIntArray sparseIntArray = new SparseIntArray();
@@ -52,6 +55,36 @@ public class OrderSummaryActivity extends AppCompatActivity {
         }
 
         return sparseIntArray;
+    }
+
+    private void fetchUserInfo(String username) {
+        Call<UserInfo> call = retrofitInterface.getUserInfo(username);
+        call.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    System.out.println("test api pass:" + response.body().getFirstName());
+
+                        userInfo = response.body();
+                        System.out.println("test username:" + response.body().getFirstName());
+                    EditText fullName = findViewById(R.id.full_name);
+                    EditText phoneNumber = findViewById(R.id.phone_number);
+                    EditText address = findViewById(R.id.address);
+
+                    fullName.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
+                    phoneNumber.setText(userInfo.getPhoneNumber());
+                    address.setText(userInfo.getAddress());
+                }
+                else {
+                    Log.e("Retrofit", "Fetch User Infor failed with code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                    Log.e("Retrofit", "There something wrong with server: " + t.getMessage());
+            }
+        });
     }
 
 
@@ -66,13 +99,13 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 .build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
-
+        fetchUserInfo("Ngo Gia Bao");
         discountCodeInput = findViewById(R.id.discount_code);
         discountCodeResult = findViewById(R.id.promote_code_result);
-
-        tvName = findViewById(R.id.full_name);
-        tvPhone = findViewById(R.id.phone_number);
-        tvAddress = findViewById(R.id.address);
+//
+//        tvName = findViewById(R.id.full_name);
+//        tvPhone = findViewById(R.id.phone_number);
+//        tvAddress = findViewById(R.id.address);
         tvTotalPrice = findViewById(R.id.total_price);
         tvDiscountedPrice = findViewById(R.id.discounted_price);
         etDiscountCode = findViewById(R.id.discount_code);
@@ -113,17 +146,23 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         }
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String phone = intent.getStringExtra("phone");
-        String address = intent.getStringExtra("address");
-        String totalPrice = intent.getStringExtra("totalPrice");
+//        Intent intent = getIntent();
+//        String name = intent.getStringExtra("name");
+//        String phone = intent.getStringExtra("phone");
+//        String address = intent.getStringExtra("address");
+//        String totalPrice = intent.getStringExtra("totalPrice");
 
-        tvName.setText("Họ tên: " + name);
-        tvPhone.setText("Số điện thoại: " + phone);
-        tvAddress.setText("Địa chỉ giao hàng: " + address);
+//        tvName.setText("Họ tên: " + name);
+//        tvPhone.setText("Số điện thoại: " + phone);
+//        tvAddress.setText("Địa chỉ giao hàng: " + address);
 
-
+//        EditText Fullname = findViewById(R.id.full_name);
+//        EditText Phone_number= findViewById(R.id.phone_number);
+//        EditText Address = findViewById(R.id.full_name);
+//
+//        Fullname.setText(userInfo.getFristName() + " " + userInfo.getLastName());
+//        Phone_number.setText(userInfo.getPhoneNumber());
+//        Address.setText(userInfo.getAddress());
         // Back button event
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -56,6 +56,9 @@ public class    OrderHistoryActivity extends AppCompatActivity {
         else if(Objects.equals(STATUS,"Đã thanh toán")) {
             DbStatus = "done";
         }
+        else {
+            DbStatus = "cancelled";
+        }
 
         Call<List<Order>> call = retrofitInterface.getOrderByStatus(DbStatus,page, PAGE_SIZE);
 

@@ -1,5 +1,6 @@
 package com.example.pbl6_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.pbl6_android.Activity.Product.DetailActivity;
 import com.example.pbl6_android.adapters.OrderStatusAdapter;
 import com.example.pbl6_android.adapters.SuggestedByCategoryAdapter;
 import com.example.pbl6_android.models.Category;
@@ -171,6 +173,8 @@ public class AboutFragment extends Fragment implements SuggestedByCategoryAdapte
 
     @Override
     public void onSuggestedProductClick(Product product) {
-
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("product",product);
+        startActivity(intent);
     }
 }
